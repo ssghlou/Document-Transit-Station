@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -12,16 +16,32 @@ class UserController extends Controller
         return view('user.home');
     }
 
-    //展示修改用户名的页面
-    public function setting_username()
+    //展示修改信息的页面
+    public function setting_info()
     {
-        return view('user.setting_username');
+        return view('user.setting_info');
     }
 
-    //向服务器发送修改用户名的请求
-    public function username_update()
+    //向服务器发送修改信息的请求
+    public function info_update(Request $request)
     {
-        dd('修改用户名');
+        //获取传入的值
+        $new_name = $request->input('new_name');
+        $new_email = $request->input('new_email');
+
+        if(empty($new_email) || empty($new_name))
+        {
+            return back()->withErrors('名字或邮箱不能为空');
+        }
+
+        $id = auth()->id(); //用户的数据库ID
+
+        //更新数据库
+        DB::table('users')
+            ->where('id',$id)
+            ->update(['name'=>$new_name, 'email'=>$new_email]);
+        
+        return back()->with(['success'=>'更新成功']);
     }
 
     //展示修改密码的页面
@@ -31,20 +51,30 @@ class UserController extends Controller
     }
 
     //向服务器发送修改密码的请求
-    public function password_update()
+    public function password_update(Request $request)
     {
-        dd('修改密码');
-    }
+        $id = auth()->id(); //用户的数据库ID
+        $old_password = $request->input('old_password');    //传入的原始密码
+        $origin_password = DB::table('users')
+            ->where('id', $id)
+            ->value('password');    //获取数据库中的密码
+        if(!Hash::check($old_password, $origin_password))
+        {
+            return back()->withErrors('密码错误');
+        }
 
-    //展示修改邮箱的页面
-    public function setting_email()
-    {
-        return view('user.setting_email');
-    }
+        //判断新密码是否符合要求
+        $validator = $request->validate([
+            'password' => ['confirmed', Password::min(8)]
+        ]);
 
-    //向服务器发送修改邮箱的请求
-    public function email_update()
-    {
-        dd('修改邮箱');
+        $password = $request->input('password');
+
+        //更新数据库
+        DB::table('users')
+            ->where('id',$id)
+            ->update(['password'=>Hash::make($password)]);
+        
+        return back()->with(['success'=>'更新成功']);
     }
 }
