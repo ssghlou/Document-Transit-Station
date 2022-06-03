@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
 
 class LinkController extends Controller
 {
@@ -34,7 +36,8 @@ class LinkController extends Controller
      */
     public function store(Request $request)
     {
-        dd('新的链接发送至服务器');
+        $file = $request->files;
+        dd($file);
     }
 
     /**
