@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-<p>这是登录页面</p>
+<p>登录</p>
 <form method="POST" action="{{ route('login') }}">
     @csrf
     邮箱: <input type="text" name="email" value="{{old('email')}}"><br>
@@ -9,11 +9,6 @@
     <span>{{ __('记住我') }}</span>
     <input id="remember_me" type="checkbox" name="remember"><br>
     <input type="submit" value="登录">
-    {{-- @if (Route::has('password.request'))
-        <a href="{{ route('password.request') }}">
-            {{ __('忘记密码？') }}
-        </a>
-    @endif --}}
 </form>
 @include('layout.error')
 @endsection

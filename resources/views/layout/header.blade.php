@@ -1,4 +1,5 @@
 <header>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <a href="{{route('index')}}">文件中转站</a>
     @auth
         <a href="{{route('user.home')}}">{{auth()->user()->name}}</a>

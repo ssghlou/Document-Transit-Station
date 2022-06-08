@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-<p>这是注册页面</p>
+<p>注册</p>
 <form method="POST" action="{{ route('register') }}">
     @csrf
     邮箱: <input type="text" name="email" value="{{ old('email')}}" }}><br>
@@ -9,7 +9,7 @@
     密码: <input type="password" name="password"><br>
     确认密码: <input type="password" name="password_confirmation"><br>
     <input type="submit" value="注册">
-    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
+    <a href="{{ route('login') }}">
         {{ __('已有账号？去登录') }}
     </a>
 </form>

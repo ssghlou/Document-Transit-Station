@@ -13,7 +13,10 @@ class UserController extends Controller
     //展示个人中心的页面
     public function home()
     {
-        return view('user.home');
+        $num = DB::table('links')
+            ->where('user_id', auth()->id())
+            ->count();  //当前用户已使用的链接数量
+        return view('user.home',['num' => $num]);
     }
 
     //展示修改信息的页面
@@ -64,7 +67,7 @@ class UserController extends Controller
         }
 
         //判断新密码是否符合要求
-        $validator = $request->validate([
+        $request->validate([
             'password' => ['confirmed', Password::min(8)]
         ]);
 

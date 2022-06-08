@@ -41,4 +41,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * 定义用户有多个链接的关系
+     */
+    public function FunctionName()
+    {
+        return $this->hasMany(Links::class, 'user_id', 'id');
+    }
 }

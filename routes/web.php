@@ -26,24 +26,26 @@ use Illuminate\Support\Facades\Route;
 //显示首页
 Route::get('/',[IndexController::class,'index'])->name('index');
 
-Route::prefix('user')->group(function(){
+Route::middleware(['auth'])->prefix('user')->group(function(){
     Route::get('/home',[UserController::class,'home'])
-    ->name('user.home')->middleware(['auth']);
+    ->name('user.home');
 
     Route::get('/setting/info',[UserController::class,'setting_info'])
-        ->name('user.setting.info')->middleware(['auth']);
+        ->name('user.setting.info');
     
     Route::post('/setting/info',[UserController::class,'info_update'])
-        ->name('user.info.update')->middleware(['auth']);
+        ->name('user.info.update');
 
     Route::get('/setting/password',[UserController::class,'setting_password'])
-        ->name('user.setting.password')->middleware(['auth']);
+        ->name('user.setting.password');
 
     Route::post('/setting/password',[UserController::class,'password_update'])
-        ->name('user.password.update')->middleware(['auth']);
+        ->name('user.password.update');
 });
 
-Route::get('links/s/{id}', [LinkController::class, 'get_link'])->middleware(['auth']);
+Route::get('links/s/{link_id}', [LinkController::class, 'get_link'])->middleware(['auth'])->name('links.get_link');
+Route::post('links/s/{link_id}', [LinkController::class, 'post_link'])->middleware(['auth'])->name('links.post_link');
+Route::post('links/s/files/{file}', [LinkController::class, 'download'])->middleware(['auth'])->name('links.download');
 
 //用于链接的控制器，包括查看所有链接、创建新链接、发送新链接至服务器、删除链接
 Route::resource('links', LinkController::class)->except(['show', 'update','edit'])->middleware(['auth']);
