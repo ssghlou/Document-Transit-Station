@@ -1,3 +1,12 @@
+
+文件中转站
+=
+《服务器维护与建设》的期末项目，使用Laravel Framework 9.14.0搭建。
+
+可以实现简单的用户注册、登录，文件的上传来创建链接、链接的分享以及链接中文件的下载功能。
+
+下面是Laravel的介绍。
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
