@@ -5,6 +5,7 @@
 <form method="POST"action="{{route("links.store")}}" id="form" enctype="multipart/form-data">
     @csrf
     @include('layout.error')
+    @include('layout.success_upload')
     <input type="file" name="file[]" id="file-uploader" multiple onchange="callback(this)"/>
     <button type="submit">上传</button>
 </form>
